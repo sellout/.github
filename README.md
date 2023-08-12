@@ -18,3 +18,20 @@ It’s not apparent from the docs what the priority of the locations searched is
 With the restriction that _some_ files (e.g., issue templates) must live in .github). It’s not obvious to me where files specific to this repo would live.
 
 As such, I am putting GitHub-specific files in .github (issue templates, FUNDING.yml, etc.) and the rest in the root directory (or wherever they are likely to be found outside of GitHub – e.g., CONTRIBUTING.md).
+
+## development environment
+
+We recommend the following steps to make working in this repo as easy as possible.
+
+```bash
+direnv allow
+git config --local include.path ../.gitconfig
+```
+
+### `direnv allow`
+
+This command ensures that any work you do within this repo is done within a consistent reproducible environment. That environment provides various debugging tools, etc. When you leave this directory, you will leave that environment behind, so it doesn’t impact anything else on your system.
+
+### `git config --local include.path ../.config/git/config`
+
+This will apply our repo-specific Git configuration to `git` commands run against this repo. It is very lightweight (you should definitely look at it before applying this command) – it does things like telling `git blame` to ignore formatting-only commits.
