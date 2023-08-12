@@ -1,0 +1,15 @@
+{
+  project:
+    {
+      description:
+        "This repo is implicitly depended on by any other repo under the \
+        “sellout” user on GitHub. It contains files that are presented as if \
+         they are part of each repo _unless_ that repo contains an overriding \
+         file.",
+      name: ".github",
+      repo: "sellout/.github",
+      summary: "Default community health files for `github:sellout` repos",
+      version: "0.1.0",
+    },
+  type: { name: "Nix" },
+}
