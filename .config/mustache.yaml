@@ -11,5 +11,5 @@
       summary: "Default community health files for `github:sellout` repos",
       version: "0.1.0",
     },
-  type: { name: "Nix" },
+  type: { name: "nix" },
 }
