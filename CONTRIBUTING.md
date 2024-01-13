@@ -30,25 +30,31 @@ For example, if you are adding a new API that replaces an existing one, there sh
 
 You have original code like:
 
+```
 Foo.MyAPI
   call1
   call2
+```
 
 then you want to have a new API that replaces call2 and replaces call1 with call3, so you add
 
+```
 Foo.MyAPI
   call2'
   call3
+```
 
-  and mark `call1` and `call2` deprecated.
+and mark `call1` and `call2` deprecated.
 
 Then in the breaking change, you remove `call1` and `call2`, then rename `call2'` to `call2` and define `call2'` as a deprecated alias for `call2`. Then a _later_ breaking change will remove `call2'`.
 
 If the API is undergoing more significant changes, then rather than having them live in one place, you can put it in an adajcent module. Starting from the same original code, you add
 
+```
 Foo.MyAPI'
   call2
   call3
+```
 
 then in the breaking change, you remove `Foo.MyAPI`, rename `Foo.MyAPI'` to `Foo.MyAPI`, and make `Foo.MyAPI'` an alias to `Foo.MyAPI` with deprecated re-exports of everything it had. No future additions to `Foo.MyAPI` should be exposed via the `Foo.MyAPI'` alias.
 

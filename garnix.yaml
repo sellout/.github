@@ -2,6 +2,9 @@ builds:
   exclude:
     # TODO: Remove once garnix-io/garnix#285 is fixed.
     - "homeConfigurations.x86_64-darwin-.github-example"
+    # TODO: Remove once garnix-io/issues#16 is fixed.
+    - "*.x86_64-darwin"
+    - "*.x86_64-darwin.*"
   include:
     - "*.*"
     - "*.*.*"
