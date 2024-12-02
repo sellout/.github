@@ -1,5 +1,14 @@
-/.direnv/
-
-# Nix build
 /result
 /source
+/.cache/vale/*
+!/.cache/vale/config/
+/.cache/vale/config/*
+!/.cache/vale/config/vocabularies/
+/.cache/vale/config/vocabularies/*
+!/.cache/vale/config/vocabularies/.github/
+!/.cache/vale/Vocab/
+/.cache/vale/Vocab/*
+!/.cache/vale/Vocab/.github/
+/.local/state/project-manager/
+/.local/state/nix/profiles/
+/.cache/direnv/
