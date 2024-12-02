@@ -4,36 +4,56 @@
   nixConfig = {
     ## https://github.com/NixOS/rfcs/blob/master/rfcs/0045-deprecate-url-syntax.md
     extra-experimental-features = ["no-url-literals"];
+    extra-substituters = ["https://cache.garnix.io"];
     extra-trusted-public-keys = [
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
     ];
-    extra-trusted-substituters = ["https://cache.garnix.io"];
     ## Isolate the build.
-    registries = false;
-    sandbox = true;
+    sandbox = "relaxed";
+    use-registries = false;
   };
 
-  outputs = inputs: let
-    pname = ".github";
+  outputs = {
+    flake-utils,
+    flaky,
+    nixpkgs,
+    self,
+    systems,
+  }: let
+    supportedSystems = import systems;
   in
-    inputs.flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import inputs.nixpkgs {inherit system;};
-
-      src = pkgs.lib.cleanSource ./.;
-
-      format = inputs.flaky.lib.format pkgs {};
+    {
+      schemas = {
+        inherit
+          (flaky.schemas)
+          projectConfigurations
+          devShells
+          checks
+          formatter
+          ;
+      };
+    }
+    // flake-utils.lib.eachSystem supportedSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system}.appendOverlays [
+        flaky.overlays.default
+      ];
     in {
-      devShells.default =
-        inputs.flaky.lib.devShells.default pkgs inputs.self [] "";
+      projectConfigurations =
+        flaky.lib.projectConfigurations.default {inherit pkgs self;};
 
-      checks.format = format.check inputs.self;
-
-      formatter = format.wrapper;
+      devShells =
+        self.projectConfigurations.${system}.devShells
+        // {default = flaky.lib.devShells.default system self [] "";};
+      checks = self.projectConfigurations.${system}.checks;
+      formatter = self.projectConfigurations.${system}.formatter;
     });
 
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
+    ## Flaky should generally be the source of truth for its inputs.
     flaky.url = "github:sellout/flaky";
-    nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+
+    flake-utils.follows = "flaky/flake-utils";
+    nixpkgs.follows = "flaky/nixpkgs";
+    systems.follows = "flaky/systems";
   };
 }

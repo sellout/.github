@@ -1,5 +1,7 @@
 # Sellout’s .github
 
+[![built with garnix](https://img.shields.io/endpoint?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fsellout%2F.github)](https://garnix.io/repo/sellout/.github)
+
 Default community health files for `github:sellout` repos
 
 This repo is implicitly depended on by any other repo under the “sellout” user on GitHub. It contains files that are presented as if they are part of each repo _unless_ that repo contains an overriding file.
@@ -19,19 +21,26 @@ With the restriction that _some_ files (e.g., issue templates) must live in .git
 
 As such, I am putting GitHub-specific files in .github (issue templates, FUNDING.yml, etc.) and the rest in the root directory (or wherever they are likely to be found outside of GitHub – e.g., CONTRIBUTING.md).
 
-## development environment
+## development
 
-We recommend the following steps to make working in this repo as easy as possible.
+We recommend the following steps to make working in this repository as easy as possible.
 
-```bash
-direnv allow
-git config --local include.path ../.gitconfig
-```
+### Nix users
 
-### `direnv allow`
+#### `direnv allow`
 
-This command ensures that any work you do within this repo is done within a consistent reproducible environment. That environment provides various debugging tools, etc. When you leave this directory, you will leave that environment behind, so it doesn’t impact anything else on your system.
+This command ensures that any work you do within this repository happens within a consistent reproducible environment. That environment provides various debugging tools, etc. When you leave this directory, you will leave that environment behind, so it doesn’t impact anything else on your system.
 
-### `git config --local include.path ../.config/git/config`
+#### `project-manager switch`
 
-This will apply our repo-specific Git configuration to `git` commands run against this repo. It is very lightweight (you should definitely look at it before applying this command) – it does things like telling `git blame` to ignore formatting-only commits.
+This is sort-of a catch-all for keeping your environment up-to-date. It regenerates files, wires up the project’s Git configuration, ensures the shells have the right packages, configured the right way, enables checks & formatters, etc.
+
+## building & development
+
+There is a flake-based Nix build. If you are unfamiliar with Nix, [Nix adjacent](...) can help you get things working in the shortest time and least effort possible.
+
+### if you have `nix` installed
+
+`nix develop` will put you into an environment where the traditional build tooling works. If you also have `direnv` installed, then you should automatically be in that environment when you're in a directory in this project.
+
+`nix flake check` will do a comprehensive check of the state of the repository (package-specific tests are usually run as part of `nix build`, but this covers formatting, consistency, and larger integration testing).
