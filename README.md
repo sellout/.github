@@ -1,6 +1,8 @@
 # Sellout’s .github
 
 [![built with garnix](https://img.shields.io/endpoint?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fsellout%2F.github)](https://garnix.io/repo/sellout/.github)
+[![Nix CI](https://nix-ci.com/badge/gh:sellout:.github)](https://nix-ci.com/gh:sellout:.github)
+[![Project Manager](https://img.shields.io/badge/%20-Project%20Manager-%235277C3?logo=nixos&labelColor=%23cccccc)](https://sellout.github.io/project-manager/)
 
 Default community health files for `github:sellout` repos
 
