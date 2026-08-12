@@ -13,5 +13,4 @@
 /.github/workflows/switch-pm-generation.yml linguist-generated
 /.gitignore linguist-generated
 /.vale.ini linguist-generated
-/garnix.yaml linguist-generated
 /nix-ci.nix linguist-generated
