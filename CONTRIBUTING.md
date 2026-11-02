@@ -14,19 +14,19 @@ All contributions are welcome, we love improvements to docs and tests.
 
 ### embrace the graph
 
-There is no rebasing here.. You branch where you branch and resolve conflicts in a merge commit.
+We don’t rebase here. You branch where you branch and resolve conflicts in a merge commit.
 
-### all code is autoformatted
+### all code is automatically formatted
 
 Running `nix fmt` should keep your changes in line with the rest of the repository. CI will tell you if that hasn’t happened. We recommend ensuring that each commit is formatted, to keep reformatting noise out of other changes.
 
-If you do need to bulk re-format (e.g., you have a long series of commits, and the work to modify them all, reformatting and resolving conflicts, would be onerous) then make a separate commit that _only_ formats, then another small commit adding the previous SHA to `"${repo_root}/.config/git/ignoreRevs"`.
+If you do need to bulk re-format (for example, you have a long series of commits, and the work to modify them all, reformatting and resolving conflicts, would be onerous) then make a separate commit that _only_ formats, then another small commit adding the previous SHA to `"${repo_root}/.config/git/ignoreRevs"`.
 
 ### be conscious of versioning
 
 Breaking changes should be made in separate PRs from backward compatible changes as much as possible.
 
-For example, if you are adding a new API that replaces an existing one, there should first be a PR that adds the new API alongside the old one, then a second PR that removes the old API. If there are name conflicts, defer them until the breaking change, making the work to adjust to the breaking change minimal. E.g.,
+For example, if you are adding a new API that replaces an existing one, there should first be a PR that adds the new API alongside the old one, then a second PR that removes the old API. If there are name conflicts, defer them until the breaking change, making the work to adjust to the breaking change minimal. For example,
 
 You have original code like:
 
@@ -48,7 +48,7 @@ and mark `call1` and `call2` deprecated.
 
 Then in the breaking change, you remove `call1` and `call2`, then rename `call2'` to `call2` and define `call2'` as a deprecated alias for `call2`. Then a _later_ breaking change will remove `call2'`.
 
-If the API is undergoing more significant changes, then rather than having them live in one place, you can put it in an adajcent module. Starting from the same original code, you add
+If the API is undergoing more significant changes, then rather than having them live in one place, you can put it in an adjacent module. Starting from the same original code, you add
 
 ```
 Foo.MyAPI'
@@ -58,6 +58,6 @@ Foo.MyAPI'
 
 then in the breaking change, you remove `Foo.MyAPI`, rename `Foo.MyAPI'` to `Foo.MyAPI`, and make `Foo.MyAPI'` an alias to `Foo.MyAPI` with deprecated re-exports of everything it had. No future additions to `Foo.MyAPI` should be exposed via the `Foo.MyAPI'` alias.
 
-If there are no conflicts in the changes, simply adding and removing, then there is no need for the third (future) PR. The initial two PRs will suffice.
+If there are no conflicts in the changes, only adding and removing, then there is no need for the third (future) PR. The initial two PRs will suffice.
 
 See [the README](./README.md#versioning) for more specific information on what kind of changes are considered “breaking”.
