@@ -2,13 +2,13 @@
   project:
     {
       description:
-        "This repo is implicitly depended on by any other repo under the \
-        “sellout” user on GitHub. It contains files that are presented as if \
-        they are part of each repo _unless_ that repo contains an overriding \
-        file.",
+        "This repository is implicitly depended on by any other repository \
+        under the “sellout” user on GitHub. It contains files that are \
+        presented as if they’re part of each repository _unless_ that \
+        repository contains an overriding file.",
       name: ".github",
       repo: "sellout/.github",
-      summary: "Default community health files for `github:sellout` repos",
+      summary: "Default community health files for `github:sellout` repositories",
     },
   type: { name: "default" },
 }

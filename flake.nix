@@ -1,59 +1,24 @@
 {
-  description = "Default community health files for `github:sellout` repos";
+  description = "Default community health files for `github:sellout` repositories";
 
   nixConfig = {
-    ## NB: This is a consequence of using `self.pkgsLib.runEmptyCommand`, which
-    ##     allows us to sandbox derivations that otherwise can’t be.
-    allow-import-from-derivation = true;
-    ## https://github.com/NixOS/rfcs/blob/master/rfcs/0045-deprecate-url-syntax.md
-    extra-experimental-features = ["no-url-literals"];
-    extra-substituters = [
-      "https://cache.garnix.io"
-      "https://sellout.cachix.org"
-    ];
+    allow-import-from-derivation = false;
+    extra-substituters = ["https://sellout.cachix.org"];
     extra-trusted-public-keys = [
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "sellout.cachix.org-1:v37cTpWBEycnYxSPAgSQ57Wiqd3wjljni2aC0Xry1DE="
     ];
+    ## WAIT: This should be `"fatal"`, but NixOS/nixpkgs#544986.
+    lint-absolute-path-literals = "ignore";
+    lint-short-path-literals = "fatal";
+    lint-url-literals = "fatal";
     ## Isolate the build.
-    sandbox = "relaxed";
+    sandbox = true;
     use-registries = false;
   };
 
-  outputs = {
-    flake-utils,
-    flaky,
-    nixpkgs,
-    self,
-    systems,
-  }: let
-    supportedSystems = import systems;
-  in
-    {
-      schemas = {
-        inherit
-          (flaky.schemas)
-          projectConfigurations
-          devShells
-          checks
-          formatter
-          ;
-      };
-    }
-    // flake-utils.lib.eachSystem supportedSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system}.appendOverlays [
-        flaky.overlays.default
-      ];
-    in {
-      projectConfigurations =
-        flaky.lib.projectConfigurations.default {inherit pkgs self;};
-
-      devShells =
-        self.projectConfigurations.${system}.devShells
-        // {default = flaky.lib.devShells.default system self [] "";};
-      checks = self.projectConfigurations.${system}.checks;
-      formatter = self.projectConfigurations.${system}.formatter;
-    });
+  ## The flake isn’t a Nix expression, so it’s clearer to keep `outputs` (which
+  ## is) in a separate file.
+  outputs = inputs: import .config/flake/outputs.nix inputs;
 
   inputs = {
     ## Flaky should generally be the source of truth for its inputs.

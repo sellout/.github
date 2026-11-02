@@ -3,7 +3,7 @@
 {...}: {
   project = {
     name = ".github";
-    summary = "Default community health files for `github:sellout` repos";
+    summary = "Default community health files for `github:sellout` repositories";
   };
 
   ## publishing
