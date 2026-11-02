@@ -3,3 +3,4 @@ formatter
 [Nn]ix
 Pfeil
 ShellCheck
+rebase
